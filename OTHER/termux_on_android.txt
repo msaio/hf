@@ -1,0 +1,59 @@
+1. Create ssh connection:
+	- 1 thing u should know:
+	if u use:
+	-> ssh-keygen or ssh-keygen -b 4096 -t rsa : it wont work because: ur termux got address: u0_a78@localhost and ur linux: user@domainname 
+=> u got to config host file on termux and set localhost as a domain name and also config on host file of desktop
+
+	-> : This will work just fine but not perfect
+ssh-keygen -t rsa -b 4096 -C "msaiozero97@gmail.com" 
+
+	-> : This is perfect (This is already in my git set up guide)
+git config --global color.ui true
+git config --global user.name "msaio"
+git config --global user.email "msaiozero97@gmail.com"
+ssh-keygen -t rsa -b 4096 -C "msaiozero97@gmail.com" -P '' -f ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 0600 ~/.ssh/authorized_keys
+	-> : Connect with GitHub
+cat ~/.ssh/id_rsa.pub
+ssh -T git@github.com
+
+
+	-password is now: zxc (u can change it with passwd on termux)
+	
+	- From PC to Termux
+	- copy ssh public key to android termux with username: u0_a78 (u0_a780) ,with ip: 192.168.137.101 ,at port: 8022
+ssh-copy-id -i $HOME/.ssh/id_rsa.pub u0_a78@192.168.137.101 -p 8022
+	- port 8022 is must, i dont know why
+	-connect with:
+ssh -p '8022' 'u0_a78@192.168.137.101'
+	-or
+ssh u0_a78@192.168.137.101 -p 8022 
+
+	- From Termux to PC:
+		Connect to Termux with ssh
+		Do the same ssh set up as PC
+		Copy key from id_rsa.pub then add to authorized_keys at PC
+		Done 
+2. NeoVim:
+-Install Python2, Python3, ...:
+apt install neovim python python3 python-pip python3-pip g++ gcc cmake build-essential python3-dev
+
+-Install pip:
+python3 -m pip install pip --upgrade --force
+python -m pip install pip --upgrade --force
+
+-How to make python2 as default(optional): (use which python to get path)
+update-alternatives --install path/to/python python path/to/python2 1
+
+-Install NeoVim:
+apt install neovim
+
+-Set up Vim-Plug (Check https://github.com/junegunn/vim-plug for details):
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+-checkheath:
+open nvim and type: :checkhealth
+If Ok then skip
+If error then type: :help provider-python for details

@@ -1,0 +1,37 @@
+git config --global color.ui true
+git config --global user.name "msaio"
+git config --global user.email "nq2uit@gmail.com"
+ssh-keygen -t rsa -b 4096 -C "nq2uit@gmail.com" -P '' -f ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 0600 ~/.ssh/authorized_keys
+
+-get key from file u create above
+cat ~/.ssh/id_rsa.pub
+ssh -T git@github.com
+
+*change in user setting with subsystem terminal bash 
+(default is git-bash: < " terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe" >)
+->  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe",
+
+- GitLab: Can use same key with github
+ssh-keygen -o -t rsa -b 4096 -C "msaiozero97@gmail.com"
+cat ~/.ssh/id_rsa.pub
+ssh -T git@gitlab.com
+
+- Bitbucket: Can use same key with github (bitbucker and git the same time use opt1)
++ opt1
+cat ~/.ssh/id_rsa.pub
+ssh -T git@bitbucket.org 
++ opt2:
+ssh-keygen 
+eval `ssh-agent`
+ssh-add ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub 
+ssh -T git@bitbucket.org 
+
+- Heroku (check rails tutorial for more detail) Can use same key with github
+curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+heroku --version
+heroku login
+heroku keys:add
+ssh -v git@heroku.com
