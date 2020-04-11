@@ -93,7 +93,7 @@ select yn in "Yes" "No"; do
       # 2nd, install Vim-Plug
       curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
       # 3rd, get public config file from github.com/msaio
-      curl -fLo ~/.config/nvim/init.vim https://raw.githubusercontent.com/msaio/SetupEnvWSL/master/init.vim
+      curl -fLo ~/.config/nvim/init.vim https://raw.githubusercontent.com/msaio/hf/master/init.vim 
       # 4th, install plugin
       nvim +PlugInstall +qall
       python3 ~/.config/nvim/plugged/YouCompleteMe/install.py --all
@@ -136,7 +136,7 @@ select yn in "Yes" "No"; do
           # 2nd, install bash_it
           ~/.bash_it/install.sh -s
           # 3rd, get public config file from github.com/msaio
-          curl -fLo ~/.bashrc https://raw.githubusercontent.com/msaio/SetupEnvWSL/master/.bashrc;
+          curl -fLo ~/.bashrc https://raw.githubusercontent.com/msaio/hf/master/.bashrc
           # 4th, bash_it as default
           sudo chsh -s /bin/bash
           ;;
@@ -247,7 +247,8 @@ select yn in "Yes" "No"; do
       ln -s -f .tmux/.tmux.conf
       cp .tmux/.tmux.conf.local .
       # 4th, Get public settings
-      curl -fLo ~/.tmux.conf.local https://raw.githubusercontent.com/msaio/SetupEnvWSL/master/.tmux.conf.local
+      curl -fLo ~/.tmux.conf https://raw.githubusercontent.com/msaio/hf/master/.tmux.conf
+      curl -fLo ~/.tmux.conf.local https://raw.githubusercontent.com/msaio/hf/master/.tmux.conf.local
       break
       ;;
     No  )
