@@ -192,11 +192,12 @@ echo "Do you want to set up GUI?"
 select yn in "Yes" "No"; do
   case $yn in
     Yes )
-      echo "Are you using WSL1 or WSL2 ?"
-			curl -fLo ~/config.xlaunch https://raw.githubusercontent.com/msaio/hf/master/config.xlaunch
+			# Download x-server (https://sourceforge.net/projects/xming/)
 			curl -fLo /mnt/c/Users/uiw/Downloads/x-server.exe https://sourceforge.net/projects/xming/files/latest/Downloads
+			# Set up x-server
 			cd /mnt/c/Users/uiw/Downloads/ && cmd.exe /c x-server.exe & cd
 
+      echo "Are you using WSL1 or WSL2 ?"
       select edition in "WSL1" "WSL2"; do
         case $edition in
           WSL1  )
@@ -210,6 +211,9 @@ select yn in "Yes" "No"; do
             break
             ;;
           WSL2  )
+						# get required configuration for wsl 2 GUI
+						curl -fLo ~/config.xlaunch https://raw.githubusercontent.com/msaio/hf/master/config.xlaunch
+
             if [ $shell == "oh_my_zsh" ] || [ $shell == "zsh" ]
 						then
 							echo "Added to .zshrc"
@@ -276,6 +280,7 @@ select yn in "Yes" "No"; do
 				echo ".bashrc already has the auto config for GUI but is commented"
 			fi
 			source ~/.bashrc
+
       break
       ;;
     No  )
