@@ -138,11 +138,11 @@ select yn in "Yes" "No"; do
       select choice in "BASH-IT" "OhMyZSH"; do
         case $choice in
           BASH-IT )
-            $shell="bash_it"
+            shell="bash_it"
             break
             ;;
           OhMyZSH )
-  	  		  $shell="oh_my_zsh"
+  	  		  shell="oh_my_zsh"
 			      break
 			      ;;
 	      esac
