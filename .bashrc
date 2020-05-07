@@ -86,7 +86,9 @@ open_xserver () {
 	curdir=$(pwd)
 	if [ $# -eq 0 ]
 	then
-		cd /mnt/c/ProgramData/Microsoft/Windows/Start\ Menu/Programs/Xming/ && cmd.exe /c "Xming.lnk" & echo "" && cd
+		#cd /mnt/c/ProgramData/Microsoft/Windows/Start\ Menu/Programs/Xming/ && cmd.exe /c "Xming.lnk" & echo "" && cd
+		cd
+		/mnt/c/Program\ Files\ \(x86\)/Xming/XLaunch.exe & echo "X-server is running as default..."
 		cd $curdir
 	else
 		if [ -e $1 ]

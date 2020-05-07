@@ -201,6 +201,7 @@ select yn in "Yes" "No"; do
       select edition in "WSL1" "WSL2"; do
         case $edition in
           WSL1  )
+
             if [ $shell == "oh_my_zsh" ] || [ $shell == "zsh" ]
 						then
               echo "export DISPLAY=:0" >> ~/.zshrc
