@@ -39,7 +39,7 @@ select yn in "Yes" "No"; do
         read -p "Enter your global user.email: " git_email
         echo "Github username will be: $git_username"
         echo "Github email will bee: $git_email"
-        read -p "Are you sure? " yn
+        read -p "Are you sure? y/n" yn
         case $yn in
           [Yy]* )
             git config --global user.name "$git_username"
