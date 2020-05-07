@@ -11,10 +11,9 @@ vmip=$(grep -oP "(?<=nameserver ).+" /etc/resolv.conf)
 #vmip=$(grep nameserver /etc/resolv.conf | awk '{print $2}')
 
 # Gain access to C: drive
-sudo chmod 755 /mnt/c
 
 echo "The current default shell: $shell"
-echo "The Real-IP is:    				 $realip"
+echo "The Real-IP is:            $realip"
 echo "The virtual-IP is:         $vmip"
 echo "-----------------------------------------"
 
