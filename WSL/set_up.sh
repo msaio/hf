@@ -1,6 +1,26 @@
+# Default shell
+shell=$(echo $SHELL | cut -d'/' -f 3)
+
+# Get the real IP from physics PC
+realip=$(dig +noall +answer $(hostname -s) | tail -1 | cut -f 5)
+
+# Get the IP of the virtual machine WSL
+vmip=$(grep -oP "(?<=nameserver ).+" /etc/resolv.conf)
+# Or
+#vmip=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
+#vmip=$(grep nameserver /etc/resolv.conf | awk '{print $2}')
+
+# Gain access to C: drive
+sudo chmod 755 /mnt/c
+
+echo "The current default shell: $shell"
+echo "The Real-IP is:    				 $realip"
+echo "The virtual-IP is:         $vmip"
+echo "-----------------------------------------"
+
 # Update and Upgrade
-sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get update -y
+sudo apt-get upgrade -y
 # GIT
 echo "-----------------------------------------"
 echo "Do you want to set up GIT ?"
@@ -96,7 +116,8 @@ select yn in "Yes" "No"; do
       curl -fLo ~/.config/nvim/init.vim https://raw.githubusercontent.com/msaio/hf/master/init.vim 
       # 4th, install plugin
       nvim +PlugInstall +qall
-      python3 ~/.config/nvim/plugged/YouCompleteMe/install.py --all
+      sudo python3 ~/.config/nvim/plugged/YouCompleteMe/install.py --clangd-completer
+      sudo python3 ~/.config/nvim/plugged/YouCompleteMe/install.py --all
       break
       ;;
     No  )
@@ -118,11 +139,11 @@ select yn in "Yes" "No"; do
       select choice in "BASH-IT" "OhMyZSH"; do
         case $choice in
           BASH-IT )
-            shell="bash_it"
+            $shell="bash_it"
             break
             ;;
           OhMyZSH )
-  	  		  shell="oh_my_zsh"
+  	  		  $shell="oh_my_zsh"
 			      break
 			      ;;
 	      esac
@@ -139,6 +160,7 @@ select yn in "Yes" "No"; do
           curl -fLo ~/.bashrc https://raw.githubusercontent.com/msaio/hf/master/.bashrc
           # 4th, bash_it as default
           sudo chsh -s /bin/bash
+					source ~/.bashrc
           ;;
         oh_my_zsh )
           # 1st, install zsh
@@ -148,10 +170,11 @@ select yn in "Yes" "No"; do
           # 3rd, Install
           cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
           # 4th, BulletTrain theme
-          curl -Lo $ZSH_CUSTOM/themes/bullet-train.zsh-theme https://raw.githubusercontent.com/caiogondim/bullet-train-oh-my-zsh-theme/master/bullet-train.zsh-theme
+          curl -fLo $ZSH_CUSTOM/themes/bullet-train.zsh-theme https://raw.githubusercontent.com/caiogondim/bullet-train-oh-my-zsh-theme/master/bullet-train.zsh-theme
 		      sed -i "s/ZSH_THEME.*/ZSH_THEME\=\"bullet-train\"/g" ~/.zshrc
 		      # 5th, zsh as default
 		      sudo chsh -s /bin/zsh
+					source ~/.zshrc
           ;;
       esac
       break
@@ -171,49 +194,41 @@ select yn in "Yes" "No"; do
   case $yn in
     Yes )
       echo "Are you using WSL1 or WSL2 ?"
+			curl -fLo ~/config.xlaunch https://raw.githubusercontent.com/msaio/hf/master/config.xlaunch
+			curl -fLo /mnt/c/Users/uiw/Downloads/x-server.exe https://sourceforge.net/projects/xming/files/latest/Downloads
+			cd /mnt/c/Users/uiw/Downloads/ && cmd.exe /c x-server.exe & cd
+
       select edition in "WSL1" "WSL2"; do
         case $edition in
           WSL1  )
-            if [ $shell == "oh_my_zsh" ]
-            then
+            if [ $shell == "oh_my_zsh" ] || [ $shell == "zsh" ]
+						then
               echo "export DISPLAY=:0" >> ~/.zshrc
-            elif [ $shell == "bash_it" ]
-            then
+            elif [ $shell == "bash_it" ] || [ $shell == "bash" ]
+						then
               echo "export DISPLAY=:0" >> ~/.bashrc
             fi
             break
             ;;
           WSL2  )
-            # Get the real IP from physics PC
-						# Choose the ip is the same with the real ip
-            ip1=$(ipconfig.exe | grep IPv4 | cut -d: -f2 | cut -d' ' -f2 | head -1)
-						ip2=$(ipconfig.exe | grep IPv4 | cut -d: -f2 | cut -d' ' -f2 | tail -1)
-						select rip in $ip1 $ip2; do
-							case rip in
-								$ip1	)
-									theip=$ip1
-									break
-									;;
-								$ip2	)
-									theip=$ip2
-									break
-									;;
-							esac
-						done
-
-            if [ $shell == "oh_my_zsh" ]
-            then
-              echo "#export DISPLAY=$theip:0" >> ~/.zshrc
-            elif [ $shell == "bash_it" ]
-            then
-              echo "#export DISPLAY=$theip:0" >> ~/.bashrc
+            if [ $shell == "oh_my_zsh" ] || [ $shell == "zsh" ]
+						then
+							echo "Added to .zshrc"
+              echo "export DISPLAY=$realip:0" >> ~/.zshrc
+            elif [ $shell == "bash_it" ] || [ $shell == "bash" ]
+						then
+							echo "Added to .bashrc"
+              echo "export DISPLAY=$realip:0" >> ~/.bashrc
+							echo ".bashrc already has the auto config for GUI but is commented"
             fi
             break
             ;;
         esac
       done
+			source ~/.bashrc
 			echo "------------"
-			echo "Because of lagging, slow resposive, i comment the line, so you need to uncomment to get it work"
+			echo "Due to unexpected lagging and slow responding, i comment the line, so you need to uncomment to get it work"
+			echo "I found that the issue will end as soon as open x-server (with disable access control)"
 			echo "One more thing: "
       echo "You must install x-server"
       echo "I highly recommend using X410 from Microsoft store if you have plenty money"
@@ -229,6 +244,47 @@ select yn in "Yes" "No"; do
       ;;
   esac
 done
+##########################
+
+###############################################################
+echo "-----------------------------------------"
+# AUDIO ON WSL
+echo "Do you want to setup Audio?"
+select yn in "Yes" "No"; do
+  case $yn in
+    Yes )
+			# Download dependencies
+			sudo apt install unzip -y
+			sudo apt install libpulse0 -y
+			mkdir /mnt/c/wsl
+			# Download pulseaudio for windows
+			curl -fLo /mnt/c/wsl/pulseaudio-1.1.zip http://bosmans.ch/pulseaudio/pulseaudio-1.1.zip
+			# Unpack
+			sudo unzip /mnt/c/wsl/pulseaudio-1.1.zip -d /mnt/c/wsl/
+			# Edit config
+			sed -i "42s/.*/load-module module-waveout sink_name=output source_name=input record=0/" /mnt/c/wsl/etc/pulse/default.pa
+			sed -i "61s/.*/load-module module-native-protocol-tcp auth-ip-acl=$(dig +noall +answer $(hostname -s) | tail -1 | cut -f 5)/" /mnt/c/wsl/etc/pulse/default.pa
+			sed -i "39s/.*/exit-idle-time = -1/" /mnt/c/wsl/etc/pulse/daemon.conf
+
+			if [ $shell == "oh_my_zsh" ] || [ $shell == "zsh" ]
+			then
+				echo "Added to .zshrc"
+				echo "export PULSE_SERVER=tcp:$realip" >> ~/.zshrc
+			elif [ $shell == "bash_it" ] || [ $shell == "bash" ]
+			then
+				echo "Added to .bashrc"
+				echo "export PULSE_SERVER=tcp:$realip" >> ~/.bashrc
+				echo ".bashrc already has the auto config for GUI but is commented"
+			fi
+			source ~/.bashrc
+      break
+      ;;
+    No  )
+      break
+      ;;
+  esac
+done
+
 ##########################
 
 ###############################################################

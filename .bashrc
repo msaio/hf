@@ -2,8 +2,8 @@
 
 # If not running interactively, don't do anything
 case $- in
-  *i*) ;;
-    *) return;;
+	*i*) ;;
+	*) return;;
 esac
 
 # Path to the bash it configuration
@@ -66,6 +66,8 @@ alias e="nvim"
 export NVIM_CFG="$HOME/.config/nvim/init.vim"
 alias cfgnvim="e $NVIM_CFG"
 alias re="e -S ./Session.vim"
+alias eI="e +PlugInstall +qall"
+alias eC="e +PlugClean! +qall"
 
 # Bash
 export BASH_CFG="$HOME/.bashrc"
@@ -78,3 +80,57 @@ alias tls="t ls"
 alias tn="t new -t"
 
 alias q="exit"
+
+# Open xserver
+open_xserver () {
+	curdir=$(pwd)
+	if [ $# -eq 0 ]
+	then
+		cd
+		/mnt/c/Program\ Files\ \(x86\)/Xming/XLaunch.exe & echo "X-server is running as default..."
+		cd $curdir
+	else
+		if [ -e $1 ]
+		then
+			cd
+			/mnt/c/Program\ Files\ \(x86\)/Xming/XLaunch.exe -run $1 & echo "X-server is running with '$1' file..."
+			cd $curdir
+		else
+			cd
+			echo "There is no: '$1'"
+			/mnt/c/Program\ Files\ \(x86\)/Xming/XLaunch.exe & echo "X-server is running as default..."
+			cd $curdir
+		fi
+	fi
+}
+# Kill xserver
+kill_xserver () {
+	cmd.exe /c "taskkill /F /IM Xming.exe /IM XLaunch.exe"	
+}
+# Check xserver
+check_xserver () {
+	cmd.exe /c "tasklist" | grep "XLaunch.exe\|Xming.exe"
+}
+
+# Open pulseaudio
+open_pulseaudio () {
+	/mnt/c/wsl/bin/pulseaudio.exe &
+}
+# Kill pulseaudio
+kill_pulseaudio () {
+	cmd.exe /c "taskkill /F /IM pulseaudio.exe"
+}
+# Check pulseaudio
+check_pulseaudio () {
+	cmd.exe /c "tasklist" | grep "pulseaudio.exe"
+}
+
+#export REAL_IP=$(dig +noall +answer $(hostname -s) | tail -1 | cut -f 5)
+## GUI
+#export DISPLAY=$REAL_IP:0
+## AUDIO
+#export PULSE_SERVER=tcp:$REAL_IP
+export DISPLAY=192.168.1.139:0
+export PULSE_SERVER=tcp:192.168.1.139
+export DISPLAY=192.168.1.139:0
+export PULSE_SERVER=tcp:192.168.1.139

@@ -1,10 +1,14 @@
 -How to make python2 as default(optional): (use which python to get path)
+>
 update-alternatives --install path/to/python python path/to/python2 1
 -----------------------------------
 
 -Install or repair PIP:
+>
 sudo apt install python-pip python3-pip --yes
+>
 sudo python3 -m pip install pip --upgrade --force
+>
 sudo python -m pip install pip --upgrade --force
 -----------------------------------
 
@@ -20,19 +24,24 @@ source ~/.vimrc
 1. Give permission 755 to the folder in using (sudo chmod 755 folder)
 2. Change the git config to not track the file permission:
 	Global:
+>
 git config --add --global core.filemode false
 	Local:
+>
 git config core.fileMode false
 *NOTE: Clone a Project may need 'sudo'
 -----------------------------------
 
 -Grant access local hard drive (/mnt/c , /mnt/d):
+>
 mount -t drvfs C: /mnt/c
 OR
+>
 mount -t drvfs D: /mnt/d
 -----------------------------------
 
 -Saving GIT credential for not entering username and password while pushing or pulling everytime:
+>
 git config --global credential.helper store
 Then, do a pull or push and enter username & password. Next time it will automatic remember.
 -----------------------------------
@@ -41,4 +50,14 @@ Then, do a pull or push and enter username & password. Next time it will automat
 If you copy a file which is edited in Window, you need to convert to LF carriage
 Window uses Carriage return by default, that why sh scripts dont work sometimes when copying it from window.
 Another option is:
+>
 sed -i -e 's/\r$//' file.sh
+-----------------------------------
+
+-NPM install without sudo
+1. Set yourself as an owner of ~/.npm directory:
+>
+sudo chown -R $(whoami) ~/.npm
+2. If error persists, set yourself as an owner /usr/local/lib/node_modules directory too:
+>
+sudo chown -R $(whoami) /usr/local/lib/node_modules

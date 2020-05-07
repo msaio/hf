@@ -8,18 +8,44 @@ Plug 'honza/vim-snippets'
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
 "THEMES
-Plug 'rafi/awesome-vim-colorschemes'
+"gruvbox
+Plug 'morhetz/gruvbox'
+
+""purify
+"Plug 'kyoz/purify', { 'rtp': 'vim' }
+""medic-chalk
+"Plug 'ParamagicDev/vim-medic_chalk'
+""dracula
+"Plug 'dracula/vim', { 'as': 'dracula' }
+""molokai
+"Plug 'tomasr/molokai'
+""jellybeans
+"Plug 'nanotech/jellybeans.vim'
+""wombat256i
+"Plug 'dsolstad/vim-wombat256i'
+""kolor
+"Plug 'zeis/vim-kolor'
+""solarized
+"Plug 'altercation/vim-colors-solarized'
+""onedark
+"Plug 'joshdick/onedark.vim'
+""papercolor
+"Plug 'NLKNguyen/papercolor-theme'
+
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"RESTORE SESSION
+"RESTORE SESSION => (PROBLEM WITH AUTOSAVE CONFIG BELOW)
 Plug 'tpope/vim-obsession'
 
+"HMM
+Plug 'guns/xterm-color-table.vim'
 call plug#end()
 
 "Snippet/Autocomplete
 let g:ycm_key_list_previous_completion = ['<Up>']
 let g:ycm_key_list_select_completion = ['<Down>']
 let g:ycm_key_list_stop_completion = ['<Esc>']
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 "AIRLINE
 let g:airline#extensions#tabline#enabled = 1
@@ -32,7 +58,9 @@ map <F2> :NERDTreeToggle<CR>
 
 "OPTIONAL
 "Save
-noremap <F3><F3> :w <Enter>
+noremap <F3> :w <Enter>
+"Save all
+noremap <F3><F3> :wall <Enter>
 "Save and quit
 noremap <F3><F4> :wq <Enter>
 "Quit without saving
@@ -40,23 +68,99 @@ noremap <F4><F4> :q! <Enter>
 "Save all openings and quit
 noremap <F4><F3> :wqall! <Enter>
 "Clear the highlight search
-noremap <F5> :let @/ = "" <Enter>
+noremap <C-F5> :let @/ = "" <Enter>
+"Get latest change
+noremap <F5> :checktime <Enter>
 "Buffer
 noremap <F6><F6> :buffers <Enter>
 noremap <F6> :buffer
 "Obsession
 noremap <F7> :Obsession <Enter>
 noremap <F7><F7> :Obsession! <Enter>
+"Mouse in vim
+function! ToggleMouse()
+	" check if mouse is enabled
+	if &mouse == 'a'
+		" disable mouse
+		set mouse=
+	else
+		" enable mouse everywhere
+		set mouse=a
+	endif
+endfunc
+noremap <C-F7> :call ToggleMouse() <CR>
 
-"set nu
 "Turn hybrid line numbers on
 set nu rnu
 set hls
 set tabstop=2
 set shiftwidth=2
 set autoindent
-colorscheme purify
 set noswapfile
 
-"Auto save whenever text is 1changed
+"new buffer on the right of the current buffer
+set splitright
+"new buffer below the current buffer
+set splitbelow
+
+"Auto save
+"When text is changed (Problem with vim-ossesion)
 autocmd TextChanged,TextChangedI <buffer> silent write
+""When exiting insert mode and move to other panes
+au InsertLeave,BufLeave * silent! wall
+
+"Remember folding
+augroup remember_folds
+	autocmd!
+	autocmd BufWinLeave * mkview
+	autocmd BufWinEnter * silent! loadview
+augroup END
+
+""purify
+"syntax on " This is required
+"colorscheme purify
+"set bg=light
+
+""medic_chalk
+"colorscheme medic_chalk
+""set bg=light
+
+""dracula
+"colorscheme dracula
+"highlight Normal ctermbg=NONE
+
+""molokai
+"colorscheme molokai
+
+""jellybeans
+"colorscheme jellybeans
+
+""vim-wombat256i
+"colorscheme wombat256i
+
+""kolor
+"colorscheme kolor
+"highlight Normal ctermbg=NONE
+
+""solarized
+"syntax enable
+"let g:solarized_termcolors=256
+"let g:solarized_visibility='high'
+"let g:solarized_contrast='high'
+"set background=dark
+"colorscheme solarized
+
+""onedark
+"syntax on
+"colorscheme onedark
+"highlight Normal ctermbg=NONE
+
+""PaperColor
+"set background=dark
+"colorscheme PaperColor
+
+"gruvbox
+let g:gruvbox_contrast_dark='hard'
+set bg=dark
+silent colorscheme gruvbox
+highlight Normal ctermbg=NONE
