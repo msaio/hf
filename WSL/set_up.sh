@@ -1,3 +1,5 @@
+#! /bin/bash
+
 # Default shell
 shell=$(echo $SHELL | cut -d'/' -f 3)
 
@@ -192,10 +194,14 @@ echo "Do you want to set up GUI?"
 select yn in "Yes" "No"; do
   case $yn in
     Yes )
-			# Download x-server (https://sourceforge.net/projects/xming/)
+			# Download x-server (https://sourceforge.net/projects/xming/
+			echo "Download X-ming ..."
 			curl -fLo /mnt/c/Users/uiw/Downloads/x-server.exe https://sourceforge.net/projects/xming/files/latest/Downloads
 			# Set up x-server
+			echo "Install X-ming"
 			cd /mnt/c/Users/uiw/Downloads/ && cmd.exe /c x-server.exe & cd
+			# An instalation will popups, finish it then return to terminal
+			read -p "Install X-ming on Windows then ENTER."
 
       echo "Are you using WSL1 or WSL2 ?"
       select edition in "WSL1" "WSL2"; do
@@ -207,7 +213,7 @@ select yn in "Yes" "No"; do
               echo "export DISPLAY=:0" >> ~/.zshrc
             elif [ $shell == "bash_it" ] || [ $shell == "bash" ]
 						then
-              echo "export DISPLAY=:0" >> ~/.bashrc
+              echo "#export DISPLAY=:0" >> ~/.bashrc
             fi
             break
             ;;
@@ -222,19 +228,15 @@ select yn in "Yes" "No"; do
             elif [ $shell == "bash_it" ] || [ $shell == "bash" ]
 						then
 							echo "Added to .bashrc"
-              echo "export DISPLAY=$realip:0" >> ~/.bashrc
-							echo ".bashrc already has the auto config for GUI but is commented"
+              echo "#export DISPLAY=$realip:0" >> ~/.bashrc
             fi
             break
             ;;
         esac
       done
 			source ~/.bashrc
-			echo "------------"
-			echo "Due to unexpected lagging and slow responding, i comment the line, so you need to uncomment to get it work"
-			echo "I found that the issue will end as soon as open x-server (with disable access control)"
 			echo "One more thing: "
-      echo "You must install x-server"
+      echo "X-server is must"
       echo "I highly recommend using X410 from Microsoft store if you have plenty money"
       echo "If not, Xming/Xserver is your best choice"
       echo "Highly recommend this:"
@@ -277,10 +279,14 @@ select yn in "Yes" "No"; do
 			elif [ $shell == "bash_it" ] || [ $shell == "bash" ]
 			then
 				echo "Added to .bashrc"
-				echo "export PULSE_SERVER=tcp:$realip" >> ~/.bashrc
-				echo ".bashrc already has the auto config for GUI but is commented"
+				echo "#export PULSE_SERVER=tcp:$realip" >> ~/.bashrc
 			fi
 			source ~/.bashrc
+
+			echo "Microsoft does not support sound on WSL right now."
+			echo "Pulseaudio is your friend."
+			echo "Check this link for more info:"
+			echo "https://x410.dev/cookbook/wsl/enabling-sound-in-wsl-ubuntu-let-it-sing/"
 
       break
       ;;

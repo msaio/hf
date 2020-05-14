@@ -86,9 +86,9 @@ open_xserver () {
 	curdir=$(pwd)
 	if [ $# -eq 0 ]
 	then
-		#cd /mnt/c/ProgramData/Microsoft/Windows/Start\ Menu/Programs/Xming/ && cmd.exe /c "Xming.lnk" & echo "" && cd
-		cd
-		/mnt/c/Program\ Files\ \(x86\)/Xming/XLaunch.exe & echo "X-server is running as default..."
+		cd /mnt/c/ProgramData/Microsoft/Windows/Start\ Menu/Programs/Xming/ && cmd.exe /c "Xming.lnk" & echo "" && cd
+		#cd
+		#/mnt/c/Program\ Files\ \(x86\)/Xming/XLaunch.exe & echo "X-server is running as default..."
 		cd $curdir
 	else
 		if [ -e $1 ]
@@ -126,12 +126,88 @@ check_pulseaudio () {
 	cmd.exe /c "tasklist" | grep "pulseaudio.exe"
 }
 
-#export REAL_IP=$(dig +noall +answer $(hostname -s) | tail -1 | cut -f 5)
-## GUI
-#export DISPLAY=$REAL_IP:0
-## AUDIO
-#export PULSE_SERVER=tcp:$REAL_IP
-export DISPLAY=192.168.1.139:0
-export PULSE_SERVER=tcp:192.168.1.139
-export DISPLAY=192.168.1.139:0
-export PULSE_SERVER=tcp:192.168.1.139
+# Add a line to head of file
+add_line_to_head () {
+	# get the original string + newline from echo "" + content from source file then add to new file and replace the old one
+	{ echo -n $1; echo ""; cat $2;} > $2.new && mv -v $2{.new,};
+}
+
+# Remove all empty line in file
+remove_empty_line () {
+	awk 'NF > 0' $1 > $1.new && mv $1{.new,};
+}
+
+# Search in a file return line that contains keywords
+search_in_file () {
+	if [ $# -eq 0 ]
+	then
+		echo "Need a file for scanning !"
+	else
+		if [ -e $1 ]
+		then
+			echo "Give some keywords in ' $1 ' :"
+			read -p "" word
+			awk '/'$word'/ { print $0 }' $1
+		else
+			echo "The ' $1 ' does not exist !"
+		fi
+	fi
+}
+
+# Check size of file/dir
+size_of () {
+	ls -l $1 | awk '{ x += $5} END { print "Total bytes:  ", x; print "Total kbytes: ", x/1024; print "Total mbytes: ", x/1024/1024; print "Total gbytes: ", x/1024/1024/1024}'
+}
+
+# Number of lines
+no_of_lines_in () {
+	if [ $# -eq 0 ]
+	then
+		echo "Need a file !"
+	else
+		if [ -e $1 ]
+		then
+			awk 'END { print "Total lines: ", NR }' $1
+		else
+			echo "The ' $1 ' does not exist !"
+		fi
+	fi
+}
+
+# auto switch dir without using cd
+shopt -s autocd
+
+export VIRTUAL_IP=$(ifconfig | grep inet | awk '{print $2}' | head -1)
+export GLOBAL_IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+export VIRTUAL_SERVER=$(grep -oP "(?<=nameserver ).+" /etc/resolv.conf)
+export REAL_IP=$(dig +noall +answer $(hostname -s) | tail -1 | cut -f 5)
+export LOCAL_HOST=127.0.0.1
+
+set_up_ip () {
+	select opt in "virtual_ip" "global" "virtual_server" "real" "local"; do
+		case $opt in
+			virtual_ip )
+				export IP=$VIRTUAL_IP
+				break;;
+			global )
+				export IP=$GLOBAL_IP
+				break;;
+			virtual_server )
+				export IP=$VIRTUAL_SERVER
+				break;;
+			real )
+				export IP=$REAL_IP
+				break;;
+			local )
+				export IP=$LOCAL_HOST	
+				break;;
+		esac
+	done
+	echo "The IP: $IP"
+	export DISPLAY=$IP:0
+	export PULSE_SERVER=tcp:$IP
+	sed -i "42s/.*/load-module module-waveout sink_name=output source_name=input record=0/" /mnt/c/wsl/etc/pulse/default.pa
+	sed -i "61s/.*/load-module module-native-protocol-tcp auth-ip-acl=$IP/" /mnt/c/wsl/etc/pulse/default.pa
+	sed -i "39s/.*/exit-idle-time = -1/" /mnt/c/wsl/etc/pulse/daemon.conf
+}
+

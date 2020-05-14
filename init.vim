@@ -37,6 +37,9 @@ Plug 'vim-airline/vim-airline-themes'
 "RESTORE SESSION => (PROBLEM WITH AUTOSAVE CONFIG BELOW)
 Plug 'tpope/vim-obsession'
 
+"Surroundings
+Plug 'tpope/vim-surround'
+
 "HMM
 Plug 'guns/xterm-color-table.vim'
 call plug#end()
@@ -102,6 +105,10 @@ set noswapfile
 set splitright
 "new buffer below the current buffer
 set splitbelow
+
+"hmm
+set cursorline
+set cursorcolumn
 
 "Auto save
 "When text is changed (Problem with vim-ossesion)
