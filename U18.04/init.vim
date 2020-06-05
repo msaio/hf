@@ -49,9 +49,9 @@ Plug 'briancollins/vim-jst'
 
 call plug#end()
 
-"fzf
-set rtp+=~/.fzf
-noremap <c-p> :FZF <CR>
+""fzf
+"set rtp+=~/.fzf
+"noremap <c-p> :FZF <CR>
 
 "Snippet/Autocomplete
 let g:ycm_key_list_previous_completion = ['<Up>']
