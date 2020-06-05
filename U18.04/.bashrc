@@ -211,3 +211,5 @@ set_up_ip () {
 	sed -i "39s/.*/exit-idle-time = -1/" /mnt/c/wsl/etc/pulse/daemon.conf
 }
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

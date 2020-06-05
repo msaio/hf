@@ -1,0 +1,15 @@
+Ubuntu 20.4:
+- python, pip 
+	+ sudo apt install python-pip : Unable
+		-> sudo add-apt-repository universe: update packages
+		-> sudo apt update
+		-> sudo apt install python2
+		-> curl https://bootstrap.pypa.io/get-pip.py --output ~/get-pip.py
+		-> sudo python2 ~/get-pip.py
+		=> Done.
+	+ sudo apt install python3-pip : Work fine
+
+- neovim, init.vim
+	+ map <C-F3> <C-F5> <C-F7> turn into <F27> <F29> <F31>
+
+

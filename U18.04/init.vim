@@ -42,7 +42,16 @@ Plug 'tpope/vim-surround'
 
 "HMM
 Plug 'guns/xterm-color-table.vim'
+
+"Javascript
+Plug 'pangloss/vim-javascript'
+Plug 'briancollins/vim-jst'
+
 call plug#end()
+
+"fzf
+set rtp+=~/.fzf
+noremap <c-p> :FZF <CR>
 
 "Snippet/Autocomplete
 let g:ycm_key_list_previous_completion = ['<Up>']
@@ -64,6 +73,8 @@ map <F2> :NERDTreeToggle<CR>
 noremap <F3> :w <Enter>
 "Save all
 noremap <F3><F3> :wall <Enter>
+"Toggle PasteMode
+set pastetoggle=<C-F3>
 "Save and quit
 noremap <F3><F4> :wq <Enter>
 "Quit without saving
@@ -113,8 +124,11 @@ set cursorcolumn
 "Auto save
 "When text is changed (Problem with vim-ossesion)
 autocmd TextChanged,TextChangedI <buffer> silent write
-""When exiting insert mode and move to other panes
+"When exiting insert mode and move to other panes
 au InsertLeave,BufLeave * silent! wall
+
+"Treat .ejs files as html files
+"au BufNewFile,BufRead *.ejs set filetype=html
 
 "Remember folding
 augroup remember_folds
