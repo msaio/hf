@@ -11,5 +11,6 @@ Ubuntu 20.4:
 
 - neovim, init.vim
 	+ map <C-F3> <C-F5> <C-F7> turn into <F27> <F29> <F31>
+	+ but in Tmux <C-Fx> work fine ** STILL NO IDEA
 
 
