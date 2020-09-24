@@ -121,7 +121,7 @@ select yn in "Yes" "No"; do
       # 2nd, install Vim-Plug
       curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
       # 3rd, get public config file from github.com/msaio
-      curl -fLo ~/.config/nvim/init.vim https://raw.githubusercontent.com/msaio/hf/master/init.vim 
+      curl -fLo ~/.config/nvim/init.vim https://raw.githubusercontent.com/msaio/hf/master/U20.04/init.vim
       # 4th, install plugin
       nvim +PlugInstall +qall
       sudo python3 ~/.config/nvim/plugged/YouCompleteMe/install.py --clangd-completer
@@ -165,7 +165,7 @@ select yn in "Yes" "No"; do
           # 2nd, install bash_it
           ~/.bash_it/install.sh -s
           # 3rd, get public config file from github.com/msaio
-          curl -fLo ~/.bashrc https://raw.githubusercontent.com/msaio/hf/master/.bashrc
+          curl -fLo ~/.bashrc https://raw.githubusercontent.com/msaio/hf/master/U20.04/.bashrc
           # 4th, bash_it as default
           sudo chsh -s /bin/bash
 					source ~/.bashrc
