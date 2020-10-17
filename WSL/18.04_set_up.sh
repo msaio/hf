@@ -100,6 +100,13 @@ select yn in "Yes" "No"; do
       # Install python
       sudo apt install python python3 -y
       # Install pip
+			sudo add-apt-repository universe
+			sudo apt update
+			sudo apt install python2
+			curl https://bootstrap.pypa.io/get-pip.py --output ~/get-pip.py
+			sudo python2 ~/get-pip.py
+			sudo apt install python3-pip
+			# Upgrade pip
       sudo python3 -m pip install pip --upgrade --force
       sudo python -m pip install pip --upgrade --force
       # Install c/c++ stuff
