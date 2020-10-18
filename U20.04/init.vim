@@ -6,7 +6,6 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'epilande/vim-react-snippets'
 
-
 "NERDTREE/COMMENTER
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
@@ -79,8 +78,8 @@ noremap <F3> :w <Enter>
 "Save all
 noremap <F3><F3> :wall <Enter>
 "Toggle PasteMode
-set pastetoggle=<F27>
-set pastetoggle=<C-F3>
+set pastetoggle=<F27> "Ubuntu20.04
+"set pastetoggle=<C-F3> "Ubuntu18.04
 "Save and quit
 noremap <F3><F4> :wq <Enter>
 "Quit without saving
@@ -89,7 +88,7 @@ noremap <F4><F4> :q! <Enter>
 noremap <F4><F3> :wqall! <Enter>
 "Clear the highlight search
 noremap <F29> :let @/ = "" <Enter>
-noremap <C-F5> :let @/ = "" <Enter>
+"noremap <C-F5> :let @/ = "" <Enter>
 "Get latest change
 noremap <F5> :checktime <Enter>
 "Buffer

@@ -4,6 +4,8 @@ call plug#begin()
 Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'epilande/vim-react-snippets'
+
 "NERDTREE/COMMENTER
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
@@ -49,9 +51,9 @@ Plug 'briancollins/vim-jst'
 
 call plug#end()
 
-""fzf
-"set rtp+=~/.fzf
-"noremap <c-p> :FZF <CR>
+"fzf
+set rtp+=~/.fzf
+noremap <C-p> :FZF <CR>
 
 "Snippet/Autocomplete
 let g:ycm_key_list_previous_completion = ['<Up>']
@@ -69,12 +71,15 @@ let g:airline_theme='powerlineish'
 map <F2> :NERDTreeToggle<CR>
 
 "OPTIONAL
+"CursorBind
+noremap <F1> :set cursorbind! <CR>
 "Save
 noremap <F3> :w <Enter>
 "Save all
 noremap <F3><F3> :wall <Enter>
 "Toggle PasteMode
-set pastetoggle=<C-F3>
+"set pastetoggle=<F27> "Ubuntu20.04
+set pastetoggle=<C-F3> "Ubuntu18.04
 "Save and quit
 noremap <F3><F4> :wq <Enter>
 "Quit without saving
@@ -82,6 +87,7 @@ noremap <F4><F4> :q! <Enter>
 "Save all openings and quit
 noremap <F4><F3> :wqall! <Enter>
 "Clear the highlight search
+"noremap <F29> :let @/ = "" <Enter>
 noremap <C-F5> :let @/ = "" <Enter>
 "Get latest change
 noremap <F5> :checktime <Enter>
@@ -102,6 +108,7 @@ function! ToggleMouse()
 		set mouse=a
 	endif
 endfunc
+noremap <F31> :call ToggleMouse() <CR>
 noremap <C-F7> :call ToggleMouse() <CR>
 
 "Turn hybrid line numbers on
@@ -127,8 +134,12 @@ autocmd TextChanged,TextChangedI <buffer> silent write
 "When exiting insert mode and move to other panes
 au InsertLeave,BufLeave * silent! wall
 
+syntax on
 "Treat .ejs files as html files
 "au BufNewFile,BufRead *.ejs set filetype=html
+
+"Add jbuilder syntax highlighting
+au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 
 "Remember folding
 augroup remember_folds
