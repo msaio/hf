@@ -102,7 +102,6 @@ select yn in "Yes" "No"; do
 			# Install pip
 			sudo add-apt-repository universe
 			sudo apt update
-			sudo apt install python2
 			curl https://bootstrap.pypa.io/get-pip.py --output ~/get-pip.py
 			sudo python2 ~/get-pip.py
 			sudo apt install python3-pip
@@ -122,6 +121,9 @@ select yn in "Yes" "No"; do
 			curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 			# 3rd, get public config file from github.com/msaio
 			curl -fLo ~/.config/nvim/init.vim https://raw.githubusercontent.com/msaio/hf/master/U20.04/init.vim
+			curl -fLo ~/.config/nvim/plugin.vim https://raw.githubusercontent.com/msaio/hf/master/U20.04/nvim/plugin.vim
+			curl -fLo ~/.config/nvim/personal.vim https://raw.githubusercontent.com/msaio/hf/master/U20.04/nvim/personal.vim
+			curl -fLo ~/.config/nvim/theme.vim https://raw.githubusercontent.com/msaio/hf/master/U20.04/nvim/theme.vim
 			# 4th, install plugin
 			nvim +PlugInstall +qall
 			sudo python3 ~/.config/nvim/plugged/YouCompleteMe/install.py --clangd-completer
@@ -165,7 +167,7 @@ select yn in "Yes" "No"; do
 					# 2nd, install bash_it
 					~/.bash_it/install.sh -s
 					# 3rd, get public config file from github.com/msaio
-					curl -fLo ~/.bashrc https://raw.githubusercontent.com/msaio/hf/master/U20.04/.bashrc
+					curl -fLo ~/.bashrc https://raw.githubusercontent.com/msaio/hf/master/bash/U20.04/.bashrc
 					# 4th, bash_it as default
 					sudo chsh -s /bin/bash
 					source ~/.bashrc
@@ -321,8 +323,8 @@ select yn in "Yes" "No"; do
 			ln -s -f .tmux/.tmux.conf
 			cp .tmux/.tmux.conf.local .
 			# 4th, Get public settings
-			curl -fLo ~/.tmux.conf https://raw.githubusercontent.com/msaio/hf/master/U20.04/.tmux.conf
-			curl -fLo ~/.tmux.conf.local https://raw.githubusercontent.com/msaio/hf/master/U20.04/.tmux.conf.local
+			curl -fLo ~/.tmux.conf https://raw.githubusercontent.com/msaio/hf/master/U20.04/tmux/.tmux.conf
+			curl -fLo ~/.tmux.conf.local https://raw.githubusercontent.com/msaio/hf/master/U20.04/tmux/.tmux.conf.local
 			break
 			;;
 		No  )

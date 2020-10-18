@@ -1,56 +1,3 @@
-call plug#begin()
-
-"SNIPPETS/AUTOCOMPLETE
-Plug 'Valloric/YouCompleteMe'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'epilande/vim-react-snippets'
-
-"NERDTREE/COMMENTER
-Plug 'preservim/nerdtree'
-Plug 'preservim/nerdcommenter'
-"THEMES
-"gruvbox
-Plug 'morhetz/gruvbox'
-
-""purify
-"Plug 'kyoz/purify', { 'rtp': 'vim' }
-""medic-chalk
-"Plug 'ParamagicDev/vim-medic_chalk'
-""dracula
-"Plug 'dracula/vim', { 'as': 'dracula' }
-""molokai
-"Plug 'tomasr/molokai'
-""jellybeans
-"Plug 'nanotech/jellybeans.vim'
-""wombat256i
-"Plug 'dsolstad/vim-wombat256i'
-""kolor
-"Plug 'zeis/vim-kolor'
-""solarized
-"Plug 'altercation/vim-colors-solarized'
-""onedark
-"Plug 'joshdick/onedark.vim'
-""papercolor
-"Plug 'NLKNguyen/papercolor-theme'
-
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-"RESTORE SESSION => (PROBLEM WITH AUTOSAVE CONFIG BELOW)
-Plug 'tpope/vim-obsession'
-
-"Surroundings
-Plug 'tpope/vim-surround'
-
-"HMM
-Plug 'guns/xterm-color-table.vim'
-
-"Javascript
-Plug 'pangloss/vim-javascript'
-Plug 'briancollins/vim-jst'
-
-call plug#end()
-
 "fzf
 set rtp+=~/.fzf
 noremap <C-p> :FZF <CR>
@@ -78,8 +25,8 @@ noremap <F3> :w <Enter>
 "Save all
 noremap <F3><F3> :wall <Enter>
 "Toggle PasteMode
-"set pastetoggle=<F27> "Ubuntu20.04
-set pastetoggle=<C-F3> "Ubuntu18.04
+set pastetoggle=<F27> "Ubuntu20.04
+"set pastetoggle=<C-F3> "Ubuntu18.04
 "Save and quit
 noremap <F3><F4> :wq <Enter>
 "Quit without saving
@@ -87,8 +34,8 @@ noremap <F4><F4> :q! <Enter>
 "Save all openings and quit
 noremap <F4><F3> :wqall! <Enter>
 "Clear the highlight search
-"noremap <F29> :let @/ = "" <Enter>
-noremap <C-F5> :let @/ = "" <Enter>
+noremap <F29> :let @/ = "" <Enter>
+"noremap <C-F5> :let @/ = "" <Enter>
 "Get latest change
 noremap <F5> :checktime <Enter>
 "Buffer
@@ -147,52 +94,3 @@ augroup remember_folds
 	autocmd BufWinLeave * mkview
 	autocmd BufWinEnter * silent! loadview
 augroup END
-
-""purify
-"syntax on " This is required
-"colorscheme purify
-"set bg=light
-
-""medic_chalk
-"colorscheme medic_chalk
-""set bg=light
-
-""dracula
-"colorscheme dracula
-"highlight Normal ctermbg=NONE
-
-""molokai
-"colorscheme molokai
-
-""jellybeans
-"colorscheme jellybeans
-
-""vim-wombat256i
-"colorscheme wombat256i
-
-""kolor
-"colorscheme kolor
-"highlight Normal ctermbg=NONE
-
-""solarized
-"syntax enable
-"let g:solarized_termcolors=256
-"let g:solarized_visibility='high'
-"let g:solarized_contrast='high'
-"set background=dark
-"colorscheme solarized
-
-""onedark
-"syntax on
-"colorscheme onedark
-"highlight Normal ctermbg=NONE
-
-""PaperColor
-"set background=dark
-"colorscheme PaperColor
-
-"gruvbox
-let g:gruvbox_contrast_dark='hard'
-set bg=dark
-silent colorscheme gruvbox
-highlight Normal ctermbg=NONE
