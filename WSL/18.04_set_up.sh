@@ -128,6 +128,7 @@ select yn in "Yes" "No"; do
 			nvim +PlugInstall +qall
 			sudo python3 ~/.config/nvim/plugged/YouCompleteMe/install.py --clangd-completer
 			sudo python3 ~/.config/nvim/plugged/YouCompleteMe/install.py --all
+			rm -rf ~/get-pip.py
 			break
 			;;
 		No  )
