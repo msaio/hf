@@ -111,7 +111,7 @@ select yn in "Yes" "No"; do
 			# Install c/c++ stuff
 			sudo apt install g++ gcc make cmake -y
 			# Other stuff
-			sudo apt install build-essential python3-dev -y
+			sudo apt install build-essential python-dev python3-dev -y
 
 			# Plugin
 			# 1st, create ~/.config/nvim/init.vim
