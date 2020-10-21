@@ -63,8 +63,11 @@ source "$BASH_IT"/bash_it.sh
 
 # Neovim
 alias e="nvim"
-export NVIM_CFG="$HOME/.config/nvim/init.vim"
-alias cfgnvim="e $NVIM_CFG"
+export FILE_NVIM_CFG="$HOME/.config/nvim/init.vim"
+export DIR_NVIM_CFG="$HOME/.config/nvim"
+
+alias cfgnvim="e $DIR_NVIM_CFG"
+
 alias re="e -S ./Session.vim"
 alias eI="e +PlugInstall +qall"
 alias eC="e +PlugClean! +qall"
@@ -211,12 +214,75 @@ set_up_ip () {
 	sed -i "39s/.*/exit-idle-time = -1/" /mnt/c/wsl/etc/pulse/daemon.conf
 }
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-
 kill_rails_server () {
 	killall -9 rails
 	killall -9 ruby
 }
+
+update_wsl_setup () {
+	OS_VERSION=$(lsb_release -r -s)
+
+	case $OS_VERSION in 
+		20.04 )
+			# Update bash config
+			[ -d "$HOME/hf" ] \
+			&&  cp $HOME/.bashrc $HOME/hf/U20.04/bash/ \
+			|| git clone https://github.com/msaio/hf.git $HOME/hf \
+			&&  cp $HOME/.bashrc $HOME/hf/U20.04/bash/
+			# Update nvim config
+			[ -d "$HOME/hf" ] \
+			&&  cp $HOME/.config/nvim/*.vim $HOME/hf/U20.04/nvim/ \
+			|| git clone https://github.com/msaio/hf.git $HOME/hf \
+			&&  cp $HOME/.config/nvim/*.vim $HOME/hf/U20.04/nvim/
+			# Update tmux config
+			[ -d "$HOME/hf" ] \
+			&&  cp $HOME/.tmux.conf $HOME/.tmux.conf.local $HOME/hf/U20.04/tmux/ \
+			|| git clone https://github.com/msaio/hf.git $HOME/hf \
+			&&  cp $HOME/.tmux.conf $HOME/.tmux.conf.local $HOME/hf/U20.04/tmux/
+			;;
+		18.04 )
+			# Update bash config
+			[ -d "$HOME/hf" ] \
+			&&  cp $HOME/.bashrc $HOME/hf/U18.04/bash/ \
+			|| git clone https://github.com/msaio/hf.git $HOME/hf \
+			&&  cp $HOME/.bashrc $HOME/hf/U18.04/bash/
+			# Update nvim config
+			[ -d "$HOME/hf" ] \
+			&&  cp $HOME/.config/nvim/*.vim $HOME/hf/U18.04/nvim/ \
+			|| git clone https://github.com/msaio/hf.git $HOME/hf \
+			&&  cp $HOME/.config/nvim/*.vim $HOME/hf/U18.04/nvim/
+			# Update tmux config
+			[ -d "$HOME/hf" ] \
+			&&  cp $HOME/.tmux.conf $HOME/.tmux.conf.local $HOME/hf/U18.04/tmux/ \
+			|| git clone https://github.com/msaio/hf.git $HOME/hf \
+			&&  cp $HOME/.tmux.conf $HOME/.tmux.conf.local $HOME/hf/U18.04/tmux/
+			;;
+		* )
+			echo "Oops! nope! Won't do it! NOOB!!@#$%"
+			;;
+	esac
+	
+	# Push to github
+	[ -d "$HOME/hf" ] \
+	&& cd $HOME/hf && git add . && git commit -m "Update nvim + bash + tmux config" && git push
+}
+
+# Watch_starwar_movie_terminal_version
+star_war_movie () {
+	telnet towel.blinkenlights.nl
+}
+
+# Sort and uniqe all line in file
+s_n_u_file () {
+	# cp besttit.txt besttit.txt.backup && sort besttit.txt.backup | uniq > besttit.txt && cat besttit.txt
+	sed -i '/^$/d' $1
+	var=temp_file.txt
+	cp $1 $var && sort $var | uniq > $1 && cat $1
+	rm -rf $var
+}
+
+#------------------------ The following configurations depend on you guys-------------------
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
