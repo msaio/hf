@@ -104,7 +104,7 @@ select yn in "Yes" "No"; do
 			sudo apt update
 			curl https://bootstrap.pypa.io/get-pip.py --output ~/get-pip.py
 			sudo python2 ~/get-pip.py
-			sudo apt install python3-pip
+			sudo apt install python3-pip python-pip -y
 			# Upgrade pip
 			sudo python3 -m pip install pip --upgrade --force
 			sudo python -m pip install pip --upgrade --force
