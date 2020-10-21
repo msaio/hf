@@ -120,7 +120,7 @@ select yn in "Yes" "No"; do
 			# 2nd, install Vim-Plug
 			curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 			# 3rd, get public config file from github.com/msaio
-			curl -fLo ~/.config/nvim/init.vim https://raw.githubusercontent.com/msaio/hf/master/U20.04/init.vim
+			curl -fLo ~/.config/nvim/init.vim https://raw.githubusercontent.com/msaio/hf/master/U20.04/nvim/init.vim
 			curl -fLo ~/.config/nvim/plugin.vim https://raw.githubusercontent.com/msaio/hf/master/U20.04/nvim/plugin.vim
 			curl -fLo ~/.config/nvim/personal.vim https://raw.githubusercontent.com/msaio/hf/master/U20.04/nvim/personal.vim
 			curl -fLo ~/.config/nvim/theme.vim https://raw.githubusercontent.com/msaio/hf/master/U20.04/nvim/theme.vim
