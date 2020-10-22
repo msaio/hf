@@ -287,3 +287,12 @@ s_n_u_file () {
 	rm -rf $var
 }
 
+#Remove all blank lines in file
+r_b_l_f () {
+	#sed -i '/^$/d' filename
+	sed -i '/^$/d' $1
+}
+
+#sort and remove duplicate lines in the file
+#sort input-file | uniq > output-file
+
