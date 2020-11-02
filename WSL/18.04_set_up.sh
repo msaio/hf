@@ -334,6 +334,34 @@ select yn in "Yes" "No"; do
 	esac
 done
 ##########################
+
+###############################################################
+# FZF + AG
+
+echo "-----------------------------------------"
+echo "Do you want to set up FZF + AG ?"
+select yn in "Yes" "No"; do
+	case $yn in
+		Yes )
+			cd ~
+			# Install fzf
+			git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+			~/.fzf/install
+			# .bashrc with contains these lines by now
+			#[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+			# Now we install ag link: https://github.com/ggreer/the_silver_searcher
+			sudo apt-get install -y automake pkg-config libpcre3-dev zlib1g-dev liblzma-dev
+			sudo apt-get install silversearcher-ag -y
+			echo "export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g \"\"'" >> ~/.bashrc
+			source ~/.bashrc
+			break
+			;;
+		No  )
+			break
+			;;
+	esac
+done
+##########################
 echo "-----------------------------------------"
 echo "OK, thank you for using this installation."
 echo "Reopen terminal to take fully effect."
